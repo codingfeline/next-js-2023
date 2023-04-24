@@ -11,10 +11,12 @@ const Navbar = () => {
   return (
     <div>
       <nav>
-        <ul>
+        <ul className="flex justify-end items-center ">
           {links.map(link => (
-            <li>
-              <Link href={link.to}>{link.page}</Link>
+            <li className=" gap-3 p-3">
+              <Link className="hover:bg-slate-100 p-5" href={link.to}>
+                {link.page}
+              </Link>
             </li>
           ))}
         </ul>
