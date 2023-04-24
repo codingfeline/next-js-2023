@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 const Navbar = () => {
   const links = [
     { to: '/', page: 'Home' },
@@ -8,7 +10,15 @@ const Navbar = () => {
 
   return (
     <div>
-      <h2>navbar</h2>
+      <nav>
+        <ul>
+          {links.map(link => (
+            <li>
+              <Link href={link.to}>{link.page}</Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
     </div>
   )
 }
