@@ -1,10 +1,18 @@
 import Image from 'next/image'
 import { useState, useRef } from 'react'
+import { useForm } from 'react-hook-form'
 
 const Contact = () => {
   const [name, setName] = useState(null)
   const [email, setEmail] = useState(null)
   const [message, setMessage] = useState(null)
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
+
   const clearAll = () => {
     setEmail('')
     setName('')
@@ -14,6 +22,15 @@ const Contact = () => {
   return (
     <>
       <h2>Contact</h2>
+      <form onSubmit={handleSubmit(data => console.log(data))}>
+        <input {...register('firstName')} />
+        <input {...register('lastName', { required: true })} />
+        {errors.lastName && <p>Last name is required.</p>}
+        <input {...register('age', { pattern: /\d+/ })} />
+        {errors.age && <p>Please enter number for age.</p>}
+        <input type="submit" />
+      </form>
+
       <form className="mb-0 space-y-6" onSubmit={e => e.preventDefault()}>
         <div>
           <label htmlFor="name">Name</label>
