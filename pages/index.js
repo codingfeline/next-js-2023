@@ -4,16 +4,39 @@ import Head from 'next/head'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home() {
+export default function Home({ resources }) {
+  // console.log('test from Home')
   return (
     <>
       <Head>
         <title>NextJS</title>
       </Head>
-      <h1>welcome</h1>
-      {/* <main
-        className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
-      ></main> */}
+      <div className="hero flex flex-col items-center justify-between">
+        <h1>welcome</h1>
+        <h2>front-end web dev</h2>
+        <h3>flavoured with bespoke APIs</h3>
+        <input type="text" />
+        <ul>
+          {resources.map(resource => (
+            <li>{resource.topic}</li>
+          ))}
+        </ul>
+      </div>
     </>
   )
+}
+
+export async function getStaticProps() {
+  const res = await fetch('https://nazs.net/api/journals')
+  let resources = await res.json()
+  resources = resources.map(res => {
+    return {
+      _id: res._id,
+      topic: res.topic,
+    }
+  })
+
+  return {
+    props: { resources },
+  }
 }
