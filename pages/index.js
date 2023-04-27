@@ -1,11 +1,15 @@
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import Head from 'next/head'
+import { useState } from '@/components'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home({ resources }) {
-  // console.log('test from Home')
+  const [search, setSearch] = useState('')
+  // const filtered = [1, 2, 3]
+  // console.log(filtered) // will appear in terminal at first load only
+  const filtered = resources.map(res => res.topic.match(/A-Z/g))
   return (
     <>
       <Head>
@@ -15,11 +19,22 @@ export default function Home({ resources }) {
         <h1>welcome</h1>
         <h2>front-end web dev</h2>
         <h3>flavoured with bespoke APIs</h3>
-        <input type="text" />
+        <input
+          type="text"
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+        />
+        {search}
         <ul>
-          {resources.map(resource => (
-            <li>{resource.topic}</li>
-          ))}
+          {resources
+            .filter(item =>
+              search.toLowerCase() === ''
+                ? item
+                : item.topic.toLowerCase().includes(search)
+            )
+            .map(resource => (
+              <li key={resource._id}>{resource.topic}</li>
+            ))}
         </ul>
       </div>
     </>
