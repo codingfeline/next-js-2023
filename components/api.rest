@@ -1,0 +1,5 @@
+get https://nazs.net/api/journals/
+###
+get https://nazs.net/api/journals/5fe89ca50a75f73b4c968a1a
+###
+get https://nazs.net/api/journals/some/4
