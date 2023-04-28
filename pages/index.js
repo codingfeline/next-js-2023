@@ -9,7 +9,9 @@ export default function Home({ resources }) {
   const [search, setSearch] = useState('')
   // const filtered = [1, 2, 3]
   // console.log(filtered) // will appear in terminal at first load only
-  const filtered = resources.map(res => res.topic.match(/A-Z/g))
+  const filtered = resources.filter(res =>
+    res.topic.toLowerCase().includes(search.toLowerCase())
+  )
   return (
     <>
       <Head>
@@ -26,15 +28,9 @@ export default function Home({ resources }) {
         />
         {search}
         <ul>
-          {resources
-            .filter(item =>
-              search.toLowerCase() === ''
-                ? item
-                : item.topic.toLowerCase().includes(search)
-            )
-            .map(resource => (
-              <li key={resource._id}>{resource.topic}</li>
-            ))}
+          {filtered.map(resource => (
+            <li key={resource._id}>{resource.topic}</li>
+          ))}
         </ul>
       </div>
     </>
@@ -42,7 +38,7 @@ export default function Home({ resources }) {
 }
 
 export async function getStaticProps() {
-  const res = await fetch('https://nazs.net/api/journals')
+  const res = await fetch('https://nazs.net/api/journals/some/10')
   let resources = await res.json()
   resources = resources.map(res => {
     return {
